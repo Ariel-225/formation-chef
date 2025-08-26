@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -11,9 +12,10 @@ const RegistrationForm = () => {
     email: '',
     phone: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -26,14 +28,50 @@ const RegistrationForm = () => {
       return;
     }
 
-    // Simulate form submission
-    toast({
-      title: "Inscription reçue !",
-      description: "Nous vous contacterons bientôt pour confirmer votre place.",
-    });
+    setIsSubmitting(true);
 
-    // Reset form
-    setFormData({ name: '', email: '', phone: '' });
+    try {
+      // Insert registration into Supabase
+      const { error } = await supabase
+        .from('registrations')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone
+          }
+        ]);
+
+      if (error) {
+        if (error.code === '23505') {
+          // Unique constraint violation (duplicate email)
+          toast({
+            title: "Email déjà utilisé",
+            description: "Cette adresse email est déjà inscrite à la formation.",
+            variant: "destructive"
+          });
+        } else {
+          throw error;
+        }
+      } else {
+        toast({
+          title: "Inscription réussie !",
+          description: "Nous vous contacterons bientôt pour confirmer votre place.",
+        });
+        
+        // Reset form
+        setFormData({ name: '', email: '', phone: '' });
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,8 +130,9 @@ const RegistrationForm = () => {
         <Button 
           type="submit" 
           className="w-full btn-hero mt-6"
+          disabled={isSubmitting}
         >
-          Je réserve ma place
+          {isSubmitting ? "Inscription en cours..." : "Je réserve ma place"}
         </Button>
       </form>
     </Card>
