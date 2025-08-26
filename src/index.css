@@ -2,57 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Culinary Training Landing Page Design System */
 
 @layer base {
   :root {
+    /* Main color palette - Culinary inspired */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Orange - Main brand color for culinary theme */
+    --primary: 25 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 25 100% 60%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Warm secondary colors */
+    --secondary: 35 100% 96%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 35 20% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 35 100% 96%;
+    --accent-foreground: 0 0% 10%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 35 20% 90%;
+    --input: 35 20% 95%;
+    --ring: 25 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Custom culinary colors */
+    --chef-orange: 25 100% 50%;
+    --chef-orange-light: 25 100% 96%;
+    --chef-dark: 0 0% 10%;
+    --chef-warm: 35 80% 95%;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(25 100% 50%), hsl(35 100% 60%));
+    --gradient-warm: linear-gradient(180deg, hsl(35 80% 98%), hsl(35 80% 95%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(35 20% 98%));
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(25 100% 50% / 0.3);
+    --shadow-warm: 0 4px 15px -3px hsl(25 50% 50% / 0.2);
+    --shadow-card: 0 2px 10px -2px hsl(0 0% 0% / 0.1);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
@@ -100,6 +106,64 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* Hero button variants */
+  .btn-hero {
+    @apply bg-[var(--gradient-hero)] text-white font-semibold px-8 py-4 rounded-lg shadow-[var(--shadow-elegant)] transition-[var(--transition-smooth)] hover:scale-105 hover:shadow-[var(--shadow-warm)];
+  }
+  
+  /* WhatsApp button */
+  .btn-whatsapp {
+    @apply bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-[var(--shadow-card)] transition-[var(--transition-smooth)] hover:scale-105;
+  }
+  
+  /* Card styling */
+  .card-warm {
+    @apply bg-[var(--gradient-card)] border border-border rounded-xl shadow-[var(--shadow-card)] p-6 transition-[var(--transition-smooth)] hover:shadow-[var(--shadow-warm)];
+  }
+  
+  /* Section spacing */
+  .section-spacing {
+    @apply py-16 lg:py-24;
+  }
+  
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-[hsl(var(--chef-orange))] to-[hsl(var(--primary-glow))] bg-clip-text text-transparent;
+  }
+  
+  /* Animated elements */
+  .fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
