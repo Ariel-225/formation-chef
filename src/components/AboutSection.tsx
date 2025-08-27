@@ -1,13 +1,13 @@
-import { Calendar, MapPin, DollarSign, CheckCircle } from 'lucide-react';
+import { Calendar, MapPin, DollarSign, CheckCircle, ChefHat, Star, Trophy } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
 const AboutSection = () => {
   const modules = [
-    "Introduction à la cuisine",
-    "Hygiène alimentaire", 
-    "Techniques de cuisson",
-    "Techniques de découpe",
-    "Initiation à la pâtisserie"
+    { name: "Introduction à la cuisine", icon: "🍳", level: "Débutant" },
+    { name: "Hygiène alimentaire", icon: "🧼", level: "Essentiel" },
+    { name: "Techniques de cuisson", icon: "🔥", level: "Intermédiaire" },
+    { name: "Techniques de découpe", icon: "🔪", level: "Avancé" },
+    { name: "Initiation à la pâtisserie", icon: "🧁", level: "Spécialisé" }
   ];
 
   const eventDetails = [
@@ -68,7 +68,7 @@ const AboutSection = () => {
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
-                <span className="font-medium">{module}</span>
+                <span className="font-medium">{module.name}</span>
               </div>
             ))}
           </div>
